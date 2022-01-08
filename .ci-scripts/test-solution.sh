@@ -1,5 +1,11 @@
 #!/usr/bin/env bash
 
+if [ -z "$CI" ];
+then
+    echo "Not in CI. Exiting"
+    exit 1
+fi
+
 cd "$PROBLEM_ROOT"
 
 cargo fmt -- --check || exit 1

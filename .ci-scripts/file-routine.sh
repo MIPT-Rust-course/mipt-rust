@@ -1,5 +1,11 @@
 #!/usr/bin/env bash
 
+if [ -z "$CI" ];
+then
+    echo "Not in CI. Exiting"
+    exit 1
+fi
+
 if [[ $PROBLEM_NAME =~ ^[a-z\-]+\/[a-z\-]+$ ]];
 then
     echo "[INFO]   This branch/problem name passes"
@@ -32,3 +38,15 @@ else
 fi
 
 echo "[INFO]   Successfully moved solutions to course repository"
+
+LINE_WITH_FORBID="#![forbid(unsafe_code)];"
+echo "[INFO]   Checking for '$LINE_WITH_FORBID' at the beginning"
+
+cat ".allowlist" | while read file
+do
+    if [ "$(head -n1 $file)" = "$LINE_WITH_FORBID" ];
+    then
+        echo "[ERROR]  No '$LINE_WITH_FORBID' line in file '$file'"
+        exit 1
+    fi
+done
