@@ -1,0 +1,9 @@
+# Rust build
+**/target
+**/Cargo.lock
+
+# VS Code settings
+**/.vscode
+
+# MacOS useless DS_Store
+**/.DS_Store
